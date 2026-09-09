@@ -1,964 +1,1425 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
-<title>SARVATRA | PVC Card Cutter</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<title>SARVATRA | PVC Card Cutter HD</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
 <style>
-
 *{
     box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
 }
 
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f4f7fb;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f7fb;
     color:#172033;
+    min-height:100vh;
 }
 
 /* HEADER */
-
-.top-header{
-    background:linear-gradient(135deg,#0756d6,#008f72);
-    color:white;
-    padding:15px 16px 20px;
+.header{
     position:sticky;
     top:0;
-    z-index:50;
-    box-shadow:0 5px 18px rgba(0,0,0,.15);
+    z-index:1000;
+    background:linear-gradient(135deg,#0756d9,#08a85b);
+    color:white;
+    padding:12px 14px 15px;
+    box-shadow:0 4px 18px rgba(0,0,0,.18);
 }
 
-.header-row{
-    max-width:1050px;
-    margin:auto;
+.header-top{
     display:flex;
     align-items:center;
-    gap:12px;
+    justify-content:space-between;
 }
 
 .home-btn{
-    width:42px;
-    height:42px;
-    border-radius:13px;
-    border:1px solid rgba(255,255,255,.35);
-    background:rgba(255,255,255,.16);
+    border:0;
+    background:rgba(255,255,255,.18);
     color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:21px;
-    text-decoration:none;
+    padding:9px 13px;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.logo-box{
+.brand{
+    text-align:center;
     flex:1;
 }
 
-.logo-title{
-    font-size:21px;
-    font-weight:800;
+.brand strong{
+    font-size:22px;
+    letter-spacing:.5px;
 }
 
-.logo-sub{
+.brand small{
+    display:block;
     font-size:11px;
     opacity:.9;
     margin-top:2px;
 }
 
-.header-icon{
-    font-size:30px;
+.header-spacer{
+    width:62px;
+}
+
+.title{
+    text-align:center;
+    margin-top:12px;
+    font-size:18px;
+    font-weight:bold;
 }
 
 /* MAIN */
-
-.main{
-    max-width:1050px;
+.container{
+    width:100%;
+    max-width:600px;
     margin:auto;
-    padding:18px 14px 40px;
+    padding:14px;
 }
 
-/* TITLE */
-
-.page-title{
-    text-align:center;
-    margin:8px 0 18px;
+/* CARDS */
+.card{
+    background:white;
+    border-radius:18px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 4px 18px rgba(19,55,90,.08);
+    border:1px solid #e7edf5;
 }
 
-.page-title h1{
-    font-size:24px;
-    font-weight:800;
-    margin:0;
-    background:linear-gradient(90deg,#0756d6,#008f72);
-    -webkit-background-clip:text;
-    color:transparent;
+.card-title{
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:6px;
 }
 
-.page-title p{
-    font-size:12px;
-    color:#687386;
-    margin-top:6px;
+.card-sub{
+    color:#6c7789;
+    font-size:13px;
+    line-height:1.5;
 }
 
 /* UPLOAD */
-
-.upload-card{
-    background:white;
-    border-radius:20px;
-    padding:22px 16px;
-    border:2px dashed #b9c8df;
-    box-shadow:0 8px 25px rgba(30,60,100,.08);
+.upload-box{
+    margin-top:13px;
+    border:2px dashed #15935c;
+    background:#f1fff8;
+    border-radius:15px;
+    padding:18px 12px;
     text-align:center;
-    transition:.25s;
-}
-
-.upload-card:active{
-    transform:scale(.99);
+    cursor:pointer;
 }
 
 .upload-icon{
-    width:70px;
-    height:70px;
-    border-radius:20px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:34px;
-    background:linear-gradient(135deg,#e8f1ff,#e2fff7);
-}
-
-.upload-title{
-    font-weight:800;
-    font-size:16px;
-    margin-top:12px;
-}
-
-.upload-sub{
-    font-size:11px;
-    color:#7b8492;
-    margin-top:5px;
-}
-
-/* WORKSPACE */
-
-.workspace{
-    margin-top:18px;
-}
-
-.section-card{
-    background:white;
-    border-radius:20px;
-    padding:16px;
-    box-shadow:0 8px 25px rgba(30,60,100,.08);
-    margin-bottom:18px;
-}
-
-.section-title{
-    font-weight:800;
-    font-size:16px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-bottom:14px;
-}
-
-.section-line{
-    height:1px;
-    background:#edf0f5;
-    margin-bottom:15px;
-}
-
-/* SIDE BUTTONS */
-
-.side-tabs{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-    margin-bottom:15px;
-}
-
-.side-btn{
-    border:0;
-    padding:12px 8px;
-    border-radius:13px;
-    font-weight:800;
-    cursor:pointer;
-    font-size:13px;
-}
-
-.side-active{
-    background:linear-gradient(135deg,#0756d6,#1478ed);
-    color:white;
-    box-shadow:0 5px 14px rgba(7,86,214,.25);
-}
-
-.side-inactive{
-    background:#edf2f7;
-    color:#526071;
-}
-
-/* CROP AREA */
-
-.crop-area{
-    width:100%;
-    min-height:300px;
-    max-height:500px;
-    background:#101827;
-    border-radius:15px;
-    overflow:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.crop-area img{
-    max-width:100%;
-    display:block;
-}
-
-/* CONFIRM */
-
-.confirm-btn{
-    width:100%;
-    margin-top:14px;
-    border:0;
-    border-radius:14px;
-    padding:13px;
-    color:white;
-    font-size:14px;
-    font-weight:800;
-    background:linear-gradient(135deg,#009b73,#00b982);
-    box-shadow:0 6px 15px rgba(0,155,115,.22);
-    cursor:pointer;
-}
-
-/* OUTPUT GRID */
-
-.output-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
-
-.output-card{
-    background:white;
-    border-radius:20px;
-    padding:15px;
-    box-shadow:0 8px 25px rgba(30,60,100,.08);
-}
-
-.output-title{
-    font-weight:800;
-    font-size:15px;
-    margin-bottom:12px;
-}
-
-.front-title{
-    color:#0756d6;
-}
-
-.back-title{
-    color:#008f72;
-}
-
-.preview-box{
-    width:100%;
-    aspect-ratio:85.6/53.98;
-    border-radius:12px;
-    overflow:hidden;
-    background:#f2f5f8;
-    border:1px solid #e2e7ef;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.preview-box img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.placeholder{
-    color:#8a94a3;
-    font-size:11px;
-    padding:10px;
-    text-align:center;
-}
-
-.download-btn{
-    width:100%;
-    margin-top:12px;
-    padding:11px;
-    border:0;
-    border-radius:12px;
-    color:white;
-    font-weight:800;
-    font-size:12px;
-    cursor:pointer;
-}
-
-.front-download{
-    background:#0756d6;
-}
-
-.back-download{
-    background:#008f72;
-}
-
-.download-btn:disabled{
-    opacity:.45;
-    cursor:not-allowed;
-}
-
-/* INFO */
-
-.info-card{
-    margin-top:18px;
-    padding:15px;
-    border-radius:17px;
-    background:linear-gradient(135deg,#eef5ff,#edfff9);
-    border:1px solid #dbe8f4;
-}
-
-.info-title{
-    font-weight:800;
-    font-size:13px;
+    font-size:38px;
     margin-bottom:7px;
 }
 
-.info-text{
+.upload-box strong{
+    display:block;
+    color:#0756d9;
+}
+
+.upload-box span{
+    display:block;
+    margin-top:5px;
+    font-size:12px;
+    color:#687386;
+}
+
+#fileInput{
+    display:none;
+}
+
+/* SIDE TABS */
+.side-tabs{
+    display:flex;
+    gap:8px;
+    margin-top:14px;
+}
+
+.side-btn{
+    flex:1;
+    border:0;
+    padding:12px;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
+    background:#edf2f8;
+    color:#536071;
+}
+
+.side-btn.active{
+    background:linear-gradient(135deg,#0756d9,#08a85b);
+    color:white;
+}
+
+/* CROP AREA */
+.crop-wrapper{
+    display:none;
+}
+
+.crop-box{
+    width:100%;
+    height:420px;
+    background:#111;
+    border-radius:15px;
+    overflow:hidden;
+    position:relative;
+}
+
+#image{
+    display:block;
+    max-width:100%;
+}
+
+/* CROP BORDER */
+.cropper-view-box{
+    outline:2px solid #00d978;
+    outline-color:#00d978;
+}
+
+.cropper-line,
+.cropper-point{
+    background:#00d978;
+}
+
+.cropper-point{
+    width:10px;
+    height:10px;
+}
+
+/* TOOLBAR */
+.tools{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:7px;
+    margin-top:10px;
+}
+
+.tool{
+    border:0;
+    background:#eef3f8;
+    color:#253247;
+    padding:10px 4px;
+    border-radius:10px;
+    font-size:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.tool:active{
+    transform:scale(.96);
+}
+
+/* CONFIRM */
+.confirm-btn{
+    width:100%;
+    margin-top:11px;
+    border:0;
+    border-radius:13px;
+    padding:14px;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    background:linear-gradient(135deg,#0756d9,#08a85b);
+    box-shadow:0 6px 15px rgba(0,110,180,.2);
+    cursor:pointer;
+}
+
+/* OUTPUT */
+.output-card{
+    display:none;
+}
+
+.output-image{
+    width:100%;
+    max-height:300px;
+    object-fit:contain;
+    background:#eef2f5;
+    border-radius:12px;
+    padding:8px;
+    margin-top:10px;
+}
+
+.output-info{
+    margin-top:8px;
+    padding:9px;
+    background:#f3f8ff;
+    border-radius:10px;
+    font-size:12px;
+    color:#4c5b70;
+    line-height:1.5;
+}
+
+.download-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:10px;
+}
+
+.download-btn{
+    border:0;
+    padding:12px;
+    border-radius:11px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.jpg-btn{
+    background:#0756d9;
+    color:white;
+}
+
+.png-btn{
+    background:#08a85b;
+    color:white;
+}
+
+/* STATUS */
+.status{
+    display:none;
+    padding:12px;
+    border-radius:11px;
+    background:#edf8ff;
+    color:#0756d9;
+    font-size:13px;
+    margin-top:12px;
+    text-align:center;
+}
+
+/* INFO */
+.info{
+    background:linear-gradient(135deg,#eef7ff,#effff6);
+}
+
+.info ul{
+    padding-left:18px;
+    margin-top:8px;
+}
+
+.info li{
+    font-size:12px;
+    margin:6px 0;
+    color:#4d5b6d;
+}
+
+/* FOOTER */
+.footer{
+    text-align:center;
     font-size:11px;
-    color:#637083;
-    line-height:1.6;
+    color:#8490a0;
+    padding:10px 0 20px;
 }
 
 /* MOBILE */
+@media(max-width:480px){
 
-@media(max-width:650px){
-
-    .header-icon{
-        font-size:25px;
+    .container{
+        padding:10px;
     }
 
-    .logo-title{
-        font-size:18px;
+    .header{
+        padding:10px 10px 13px;
     }
 
-    .main{
-        padding:14px 10px 35px;
+    .brand strong{
+        font-size:20px;
     }
 
-    .page-title h1{
-        font-size:21px;
+    .title{
+        font-size:16px;
     }
 
-    .section-card{
-        padding:13px;
+    .crop-box{
+        height:370px;
     }
 
-    .crop-area{
-        min-height:250px;
-        max-height:430px;
+    .tools{
+        grid-template-columns:repeat(5,1fr);
     }
 
-    .output-grid{
-        grid-template-columns:1fr;
-        gap:13px;
-    }
-
-    .output-card{
-        padding:13px;
-    }
-
-    .preview-box{
-        max-width:380px;
-        margin:auto;
+    .tool{
+        font-size:10px;
+        padding:9px 2px;
     }
 }
 
+/* VERY SMALL */
+@media(max-width:360px){
+
+    .crop-box{
+        height:330px;
+    }
+
+    .home-btn{
+        padding:8px 9px;
+        font-size:11px;
+    }
+
+    .header-spacer{
+        width:45px;
+    }
+}
 </style>
 </head>
 
 <body>
 
-<!-- SARVATRA HEADER -->
+<header class="header">
 
-<header class="top-header">
+    <div class="header-top">
 
-<div class="header-row">
+        <button class="home-btn" onclick="goHome()">
+            🏠 Home
+        </button>
 
-<a href="index.html" class="home-btn">⌂</a>
+        <div class="brand">
+            <strong>SARVATRA</strong>
+            <small>All Government Services</small>
+        </div>
 
-<div class="logo-box">
-<div class="logo-title">SARVATRA</div>
-<div class="logo-sub">ALL GOVERNMENT SERVICES</div>
-</div>
+        <div class="header-spacer"></div>
 
-<div class="header-icon">🪪</div>
+    </div>
 
-</div>
+    <div class="title">
+        🪪 PVC Card Cutter & HD Cropper
+    </div>
 
 </header>
 
- <main class="main">
 
-<!-- PAGE TITLE -->
+<main class="container">
 
-<div class="page-title">
+    <!-- UPLOAD -->
+    <section class="card">
 
-<h1>🪪 PVC Card Cutter Studio</h1>
+        <div class="card-title">
+            📤 Upload Card
+        </div>
 
-<p>
-Aadhaar • PAN • Voter ID • DL • Other ID Cards
-</p>
+        <div class="card-sub">
+            Upload Aadhaar / PAN / Voter ID / PVC card image or PDF.
+        </div>
 
-</div>
+        <label class="upload-box" for="fileInput">
 
+            <div class="upload-icon">📁</div>
 
-<!-- UPLOAD -->
+            <strong>Choose JPG / JPEG / PNG / PDF</strong>
 
-<div class="upload-card">
+            <span>
+                Original resolution will be preserved as much as possible
+            </span>
 
-<label for="fileInput" style="cursor:pointer;display:block;">
+        </label>
 
-<div class="upload-icon">
-📁
-</div>
+        <input
+            type="file"
+            id="fileInput"
+            accept="image/jpeg,image/jpg,image/png,image/webp,application/pdf"
+        >
 
-<div class="upload-title">
-PDF / JPG / PNG File Select చేయండి
-</div>
+        <div class="status" id="status"></div>
 
-<div class="upload-sub">
-Document upload చేసి Front & Back cards custom crop చేసుకోండి
-</div>
+    </section>
 
-</label>
 
-<input
-type="file"
-id="fileInput"
-accept="image/*,application/pdf"
-style="display:none;"
->
+    <!-- CROP -->
+    <section class="card crop-wrapper" id="cropWrapper">
 
-</div>
+        <div class="card-title">
+            ✂️ Accurate PVC Crop
+        </div>
 
+        <div class="card-sub">
+            Move the image and adjust the crop box. PVC ratio is fixed to 85.60 × 53.98 mm.
+        </div>
 
-<!-- WORKSPACE -->
+        <div class="side-tabs">
 
-<div id="editorWorkspace" class="workspace hidden">
+            <button
+                class="side-btn active"
+                id="frontTab"
+                onclick="selectSide('front')">
+                FRONT
+            </button>
 
+            <button
+                class="side-btn"
+                id="backTab"
+                onclick="selectSide('back')">
+                BACK
+            </button>
 
-<!-- CROP SECTION -->
+        </div>
 
-<div class="section-card">
 
-<div class="section-title">
-✂️ Step 1: Card Side Select
-</div>
+        <div class="crop-box">
+            <img id="image" alt="Crop image">
+        </div>
 
-<div class="section-line"></div>
 
+        <div class="tools">
 
-<!-- FRONT / BACK -->
+            <button class="tool" onclick="zoomOut()">
+                🔍−
+            </button>
 
-<div class="side-tabs">
+            <button class="tool" onclick="zoomIn()">
+                🔍+
+            </button>
 
-<button
-id="setFrontBtn"
-class="side-btn side-active">
-🪪 Front Side
-</button>
+            <button class="tool" onclick="rotateLeft()">
+                ↶ Rotate
+            </button>
 
-<button
-id="setBackBtn"
-class="side-btn side-inactive">
-🔄 Back Side
-</button>
+            <button class="tool" onclick="rotateRight()">
+                ↷ Rotate
+            </button>
 
-</div>
+            <button class="tool" onclick="resetCrop()">
+                ♻️ Reset
+            </button>
 
+        </div>
 
-<!-- CROP -->
 
-<div class="crop-area">
+        <button class="confirm-btn" onclick="cropCurrent()">
+            ✂️ Crop & Save HD
+        </button>
 
-<img
-id="imageSource"
-class="hidden"
-alt="Document">
+    </section>
 
-</div>
 
+    <!-- FRONT OUTPUT -->
+    <section class="card output-card" id="frontOutput">
 
-<!-- CONFIRM -->
+        <div class="card-title">
+            🟦 Front Side — HD Output
+        </div>
 
-<button
-id="generateCropBtn"
-class="confirm-btn">
+        <img
+            id="frontPreview"
+            class="output-image"
+            alt="Front preview"
+        >
 
-✅ Crop చేసి Card Save చేయండి
+        <div class="output-info" id="frontInfo">
+            HD original crop
+        </div>
 
-</button>
+        <div class="download-grid">
 
-</div>
+            <button
+                class="download-btn jpg-btn"
+                onclick="downloadSide('front','jpg')">
+                ⬇️ HD JPG
+            </button>
 
+            <button
+                class="download-btn png-btn"
+                onclick="downloadSide('front','png')">
+                ⬇️ PNG
+            </button>
 
-<!-- OUTPUT -->
+        </div>
 
-<div class="output-grid">
+    </section>
 
 
-<!-- FRONT -->
+    <!-- BACK OUTPUT -->
+    <section class="card output-card" id="backOutput">
 
-<div class="output-card">
+        <div class="card-title">
+            🟩 Back Side — HD Output
+        </div>
 
-<div class="output-title front-title">
-🪪 Front Card
-</div>
+        <img
+            id="backPreview"
+            class="output-image"
+            alt="Back preview"
+        >
 
-<div class="preview-box">
+        <div class="output-info" id="backInfo">
+            HD original crop
+        </div>
 
-<img
-id="frontPreview"
-class="hidden"
-alt="Front Card">
+        <div class="download-grid">
 
-<span
-id="frontPlaceholder"
-class="placeholder">
-Front Card ఇంకా తయారు కాలేదు
-</span>
+            <button
+                class="download-btn jpg-btn"
+                onclick="downloadSide('back','jpg')">
+                ⬇️ HD JPG
+            </button>
 
-</div>
+            <button
+                class="download-btn png-btn"
+                onclick="downloadSide('back','png')">
+                ⬇️ PNG
+            </button>
 
-<button
-id="downloadFrontBtn"
-class="download-btn front-download"
-disabled>
+        </div>
 
-📥 Download Front JPG
+    </section>
 
-</button>
 
-</div>
+    <!-- INFO -->
+    <section class="card info">
 
+        <div class="card-title">
+            💎 HD Quality Information
+        </div>
 
-<!-- BACK -->
+        <ul>
 
-<div class="output-card">
+            <li>
+                PVC card ratio: <b>85.60 × 53.98 mm</b>
+            </li>
 
-<div class="output-title back-title">
-🪪 Back Card
-</div>
+            <li>
+                Crop output is generated from the original source resolution.
+            </li>
 
-<div class="preview-box">
+            <li>
+                JPG uses high quality <b>98%</b> compression.
+            </li>
 
-<img
-id="backPreview"
-class="hidden"
-alt="Back Card">
+            <li>
+                PNG option keeps the image without JPEG compression.
+            </li>
 
-<span
-id="backPlaceholder"
-class="placeholder">
-Back Card ఇంకా తయారు కాలేదు
-</span>
+            <li>
+                Low-resolution original images cannot create real missing detail,
+                but unnecessary resizing is avoided.
+            </li>
 
-</div>
+        </ul>
 
-<button
-id="downloadBackBtn"
-class="download-btn back-download"
-disabled>
+    </section>
 
-📥 Download Back JPG
 
-</button>
-
-</div>
-
-</div>
-
-
-<!-- INFO -->
-
-<div class="info-card">
-
-<div class="info-title">
-💡 SARVATRA PVC Card Tip
-</div>
-
-<div class="info-text">
-
-Crop box ని card మొత్తం cover అయ్యేలా adjust చేసి
-“Crop చేసి Card Save చేయండి” button నొక్కండి.
-High-resolution JPG output కోసం 1011 × 638 pixels లో save అవుతుంది.
-
-</div>
-
-</div>
-
-</div>
+    <div class="footer">
+        © SARVATRA • PVC Card Cutter HD
+    </div>
 
 </main>
 
 
 <script>
 
+/* PDF WORKER */
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
 
-const fileInput =
-document.getElementById('fileInput');
-
-const workspace =
-document.getElementById('editorWorkspace');
-
-const imgSource =
-document.getElementById('imageSource');
-
-const setFrontBtn =
-document.getElementById('setFrontBtn');
-
-const setBackBtn =
-document.getElementById('setBackBtn');
-
-const generateCropBtn =
-document.getElementById('generateCropBtn');
-
-const frontPreview =
-document.getElementById('frontPreview');
-
-const backPreview =
-document.getElementById('backPreview');
-
-const frontPlaceholder =
-document.getElementById('frontPlaceholder');
-
-const backPlaceholder =
-document.getElementById('backPlaceholder');
-
-const downloadFrontBtn =
-document.getElementById('downloadFrontBtn');
-
-const downloadBackBtn =
-document.getElementById('downloadBackBtn');
-
+/* VARIABLES */
 
 let cropper = null;
-let activeSide = 'front';
 
-let frontDataUrl = null;
-let backDataUrl = null;
+let currentSide = "front";
+
+let sourceURL = null;
+
+let frontBlob = null;
+let backBlob = null;
+
+let frontURL = null;
+let backURL = null;
 
 
-/* INIT CROPPER */
+/* ELEMENTS */
 
-function initCropper(){
+const fileInput =
+document.getElementById("fileInput");
 
-    if(cropper){
-        cropper.destroy();
-        cropper = null;
-    }
+const image =
+document.getElementById("image");
 
-    cropper = new Cropper(imgSource,{
+const cropWrapper =
+document.getElementById("cropWrapper");
 
-        aspectRatio:85.60 / 53.98,
+const statusBox =
+document.getElementById("status");
 
-        viewMode:1,
 
-        autoCropArea:.85,
+/* HOME */
 
-        responsive:true,
+function goHome(){
 
-        background:false,
-
-        movable:true,
-
-        zoomable:true,
-
-        rotatable:true,
-
-        scalable:true
-
-    });
+    /* Change this URL if your SARVATRA home page has another path */
+    window.location.href = "index.html";
 
 }
 
 
-/* FRONT */
+/* STATUS */
 
-setFrontBtn.addEventListener('click',function(){
+function showStatus(message){
 
-    activeSide='front';
+    statusBox.style.display = "block";
+    statusBox.textContent = message;
 
-    setFrontBtn.className=
-    'side-btn side-active';
-
-    setBackBtn.className=
-    'side-btn side-inactive';
-
-});
+}
 
 
-/* BACK */
+function hideStatus(){
 
-setBackBtn.addEventListener('click',function(){
+    statusBox.style.display = "none";
 
-    activeSide='back';
-
-    setBackBtn.className=
-    'side-btn side-active';
-
-    setFrontBtn.className=
-    'side-btn side-inactive';
-
-});
+}
 
 
 /* FILE UPLOAD */
 
-fileInput.addEventListener('change',function(e){
+fileInput.addEventListener("change", async function(){
 
-    const file=e.target.files[0];
+    const file = this.files[0];
 
-    if(!file)return;
+    if(!file) return;
 
-    workspace.classList.add('hidden');
+    try{
 
+        showStatus("⏳ Loading file...");
 
-    /* PDF */
+        destroyCropper();
 
-    if(file.type==='application/pdf'){
+        clearOldSource();
 
-        const reader=new FileReader();
+        if(file.type === "application/pdf"){
 
-        reader.onload=function(ev){
+            await loadPDF(file);
 
-            const typedarray=
-            new Uint8Array(ev.target.result);
+        }else{
 
-            pdfjsLib.getDocument(typedarray)
-            .promise
-            .then(function(pdf){
+            loadImageFile(file);
 
-                return pdf.getPage(1);
+        }
 
-            })
-            .then(function(page){
+    }catch(error){
 
-                const scale=2.5;
+        console.error(error);
 
-                const viewport=
-                page.getViewport({
-                    scale:scale
-                });
-
-                const canvas=
-                document.createElement('canvas');
-
-                const ctx=
-                canvas.getContext('2d');
-
-                canvas.width=viewport.width;
-                canvas.height=viewport.height;
-
-                return page.render({
-
-                    canvasContext:ctx,
-                    viewport:viewport
-
-                }).promise.then(function(){
-
-                    imgSource.src=
-                    canvas.toDataURL('image/jpeg',.95);
-
-                    imgSource.classList.remove('hidden');
-
-                    workspace.classList.remove('hidden');
-
-                    setTimeout(initCropper,150);
-
-                });
-
-            })
-            .catch(function(err){
-
-                alert(
-                    'PDF open అవ్వలేదు. మరోసారి try చేయండి.'
-                );
-
-        console.error(err);
-
-            });
-
-        };
-
-        reader.readAsArrayBuffer(file);
-
-    }
-
-    /* IMAGE */
-
-    else{
-
-        const reader=new FileReader();
-
-        reader.onload=function(ev){
-
-            imgSource.src=ev.target.result;
-
-            imgSource.classList.remove('hidden');
-
-            workspace.classList.remove('hidden');
-
-            setTimeout(initCropper,150);
-
-        };
-
-        reader.readAsDataURL(file);
+        showStatus(
+            "❌ File could not be loaded. Please try another JPG/PNG/PDF."
+        );
 
     }
 
 });
 
 
-/* GENERATE */
+/* IMAGE FILE */
 
-generateCropBtn.addEventListener('click',function(){
+function loadImageFile(file){
+
+    sourceURL =
+        URL.createObjectURL(file);
+
+    image.onload = function(){
+
+        cropWrapper.style.display = "block";
+
+        hideStatus();
+
+        initializeCropper();
+
+    };
+
+    image.onerror = function(){
+
+        showStatus("❌ Image loading failed.");
+
+    };
+
+    image.src = sourceURL;
+
+}
+
+
+/* PDF */
+
+async function loadPDF(file){
+
+    const arrayBuffer =
+        await file.arrayBuffer();
+
+    const pdf =
+        await pdfjsLib.getDocument({
+            data:arrayBuffer
+        }).promise;
+
+    /* First page */
+    const page =
+        await pdf.getPage(1);
+
+    /*
+       Higher rendering quality.
+
+       Dynamic scale prevents extremely huge
+       canvases from crashing mobile browsers.
+    */
+
+    const baseViewport =
+        page.getViewport({scale:1});
+
+    const maxDimension = 5000;
+
+    let scale = 4;
+
+    const estimatedWidth =
+        baseViewport.width * scale;
+
+    const estimatedHeight =
+        baseViewport.height * scale;
+
+    if(
+        estimatedWidth > maxDimension ||
+        estimatedHeight > maxDimension
+    ){
+
+        scale =
+            Math.min(
+                maxDimension / baseViewport.width,
+                maxDimension / baseViewport.height
+            );
+
+    }
+
+    const viewport =
+        page.getViewport({scale:scale});
+
+    const canvas =
+        document.createElement("canvas");
+
+    const context =
+        canvas.getContext("2d", {
+            alpha:false
+        });
+
+    canvas.width =
+        Math.round(viewport.width);
+
+    canvas.height =
+        Math.round(viewport.height);
+
+    await page.render({
+        canvasContext:context,
+        viewport:viewport
+    }).promise;
+
+
+    canvas.toBlob(function(blob){
+
+        if(!blob){
+
+            showStatus("❌ PDF conversion failed.");
+            return;
+
+        }
+
+        sourceURL =
+            URL.createObjectURL(blob);
+
+        image.onload = function(){
+
+            cropWrapper.style.display = "block";
+
+            hideStatus();
+
+            initializeCropper();
+
+        };
+
+        image.src = sourceURL;
+
+    },"image/png");
+
+
+}
+
+
+/* CROP INITIALIZATION */
+
+function initializeCropper(){
+
+    destroyCropper();
+
+    cropper =
+        new Cropper(image, {
+
+            /*
+              Exact PVC card ratio
+            */
+            aspectRatio:85.60 / 53.98,
+
+            /*
+              Important:
+              1 keeps crop inside image.
+            */
+            viewMode:1,
+
+            /*
+              Move image instead of
+              accidentally moving crop box.
+            */
+            dragMode:"move",
+
+            /*
+              Bigger initial crop.
+              Prevents unnecessary
+              automatic cutting.
+            */
+            autoCropArea:0.95,
+
+            responsive:true,
+
+            restore:false,
+
+            center:true,
+
+            guides:true,
+
+            highlight:true,
+
+            background:false,
+
+            checkOrientation:true,
+
+            cropBoxMovable:true,
+
+            cropBoxResizable:true,
+
+            toggleDragModeOnDblclick:false,
+
+            movable:true,
+
+            zoomable:true,
+
+            rotatable:true,
+
+            scalable:false,
+
+            zoomOnWheel:true,
+
+            wheelZoomRatio:.08,
+
+            ready:function(){
+
+                /*
+                  Make sure initial crop is
+                  large but still inside image.
+                */
+                this.crop();
+
+            }
+
+        });
+
+}
+
+
+/* DESTROY */
+
+function destroyCropper(){
+
+    if(cropper){
+
+        cropper.destroy();
+
+        cropper = null;
+
+    }
+
+}
+
+
+/* CLEAR SOURCE */
+
+function clearOldSource(){
+
+    if(sourceURL){
+
+        URL.revokeObjectURL(sourceURL);
+
+        sourceURL = null;
+
+    }
+
+}
+
+
+/* SIDE */
+
+function selectSide(side){
+
+    currentSide = side;
+
+    document
+        .getElementById("frontTab")
+        .classList.toggle(
+            "active",
+            side === "front"
+        );
+
+    document
+        .getElementById("backTab")
+        .classList.toggle(
+            "active",
+            side === "back"
+        );
+
+}
+
+
+/* ZOOM */
+
+function zoomIn(){
+
+    if(!cropper) return;
+
+    cropper.zoom(.1);
+
+}
+
+
+function zoomOut(){
+
+    if(!cropper) return;
+
+    cropper.zoom(-.1);
+
+}
+
+
+/* ROTATE */
+
+function rotateLeft(){
+
+    if(!cropper) return;
+
+    cropper.rotate(-90);
+
+}
+
+
+function rotateRight(){
+
+    if(!cropper) return;
+
+    cropper.rotate(90);
+
+}
+
+
+/* RESET */
+
+function resetCrop(){
+
+    if(!cropper) return;
+
+    cropper.reset();
+
+}
+
+
+/* CROP */
+
+function cropCurrent(){
 
     if(!cropper){
 
-        alert('ముందుగా image select చేయండి.');
+        alert("Please upload an image first.");
+        return;
+
+    }
+
+    showStatus("⏳ Creating HD crop...");
+
+
+    /*
+      Get actual source pixel dimensions.
+
+      This is the key improvement:
+      no fixed 1011 × 638 resizing.
+    */
+
+    const data =
+        cropper.getData(true);
+
+    let width =
+        Math.round(data.width);
+
+    let height =
+        Math.round(data.height);
+
+
+    /*
+      Safety limits for mobile memory.
+
+      If original crop is smaller,
+      it stays smaller.
+
+      We do NOT upscale.
+    */
+
+    const maxOutput = 5000;
+
+    if(width > maxOutput || height > maxOutput){
+
+        const ratio =
+            Math.min(
+                maxOutput / width,
+                maxOutput / height
+            );
+
+        width =
+            Math.round(width * ratio);
+
+        height =
+            Math.round(height * ratio);
+
+    }
+
+
+    const canvas =
+        cropper.getCroppedCanvas({
+
+            width:width,
+
+            height:height,
+
+            imageSmoothingEnabled:true,
+
+            imageSmoothingQuality:"high",
+
+            fillColor:"#ffffff"
+
+        });
+
+
+    if(!canvas){
+
+        showStatus("❌ Crop failed.");
+        return;
+
+    }
+
+
+    /*
+      PNG first.
+
+      PNG is used internally so we don't
+      introduce JPEG compression before
+      creating the final JPG.
+    */
+
+    canvas.toBlob(function(blob){
+
+        if(!blob){
+
+            showStatus("❌ Image creation failed.");
+            return;
+
+        }
+
+        saveSide(
+            currentSide,
+            blob,
+            width,
+            height
+        );
+
+    },"image/png");
+
+}
+
+
+/* SAVE SIDE */
+
+function saveSide(side, pngBlob, width, height){
+
+    /*
+      PNG original crop
+    */
+
+    if(side === "front"){
+
+        if(frontURL)
+            URL.revokeObjectURL(frontURL);
+
+        frontBlob = pngBlob;
+
+        frontURL =
+            URL.createObjectURL(pngBlob);
+
+        document
+            .getElementById("frontPreview")
+            .src = frontURL;
+
+        document
+            .getElementById("frontInfo")
+            .innerHTML =
+            "Resolution: <b>" +
+            width +
+            " × " +
+            height +
+            " px</b><br>" +
+            "Format: HD PNG source";
+
+        document
+            .getElementById("frontOutput")
+            .style.display = "block";
+
+    }else{
+
+        if(backURL)
+            URL.revokeObjectURL(backURL);
+
+        backBlob = pngBlob;
+
+        backURL =
+            URL.createObjectURL(pngBlob);
+
+        document
+            .getElementById("backPreview")
+            .src = backURL;
+
+        document
+            .getElementById("backInfo")
+            .innerHTML =
+            "Resolution: <b>" +
+            width +
+            " × " +
+            height +
+            " px</b><br>" +
+            "Format: HD PNG source";
+
+        document
+            .getElementById("backOutput")
+            .style.display = "block";
+
+    }
+
+
+    hideStatus();
+
+}
+
+
+/* DOWNLOAD */
+
+async function downloadSide(side, format){
+
+    const blob =
+        side === "front"
+        ? frontBlob
+        : backBlob;
+
+
+    if(!blob){
+
+        alert(
+          "Please crop the " +
+            side.toUpperCase() +
+            " side first."
+        );
 
         return;
-    }
-
-
-    const canvas=
-    cropper.getCroppedCanvas({
-
-        width:1011,
-
-        height:638,
-
-        imageSmoothingEnabled:true,
-
-        imageSmoothingQuality:'high'
-
-    });
-
-
-    const targetDataUrl=
-    canvas.toDataURL(
-        'image/jpeg',
-        .97
-    );
-
-
-    if(activeSide==='front'){
-
-        frontDataUrl=
-        targetDataUrl;
-
-        frontPreview.src=
-        targetDataUrl;
-
-        frontPreview.classList.remove('hidden');
-
-        frontPlaceholder.classList.add('hidden');
-
-        downloadFrontBtn.disabled=false;
 
     }
 
-    else{
 
-        backDataUrl=
-        targetDataUrl;
+    showStatus("⏳ Preparing download...");
 
-        backPreview.src=
-        targetDataUrl;
+    /*
+      PNG:
+      no JPEG compression.
+    */
 
-        backPreview.classList.remove('hidden');
+    if(format === "png"){
 
-        backPlaceholder.classList.add('hidden');
+        downloadBlob(
+            blob,
+            "SARVATRA_PVC_" +
+            side.toUpperCase() +
+            "_HD.png"
+        );
 
-        downloadBackBtn.disabled=false;
+        hideStatus();
+
+        return;
 
     }
 
+
+    /*
+      JPG:
+      Convert PNG crop to high-quality
+      JPEG at 98%.
+    */
+
+    const img =
+        new Image();
+
+    const url =
+        URL.createObjectURL(blob);
+
+    img.onload = function(){
+
+        const canvas =
+            document.createElement("canvas");
+
+        canvas.width =
+            img.naturalWidth;
+
+        canvas.height =
+            img.naturalHeight;
+
+        const ctx =
+            canvas.getContext("2d",{
+                alpha:false
+            });
+
+        /*
+          White background for JPG.
+        */
+
+        ctx.fillStyle =
+            "#ffffff";
+
+        ctx.fillRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        ctx.imageSmoothingEnabled =
+            true;
+
+        ctx.imageSmoothingQuality =
+            "high";
+
+        ctx.drawImage(
+            img,
+            0,
+            0
+        );
+
+
+        canvas.toBlob(function(jpgBlob){
+
+            URL.revokeObjectURL(url);
+
+            if(!jpgBlob){
+
+                showStatus(
+                    "❌ JPG creation failed."
+                );
+
+                return;
+
+            }
+
+            downloadBlob(
+                jpgBlob,
+                "SARVATRA_PVC_" +
+                side.toUpperCase() +
+                "_HD.jpg"
+            );
+
+            hideStatus();
+
+        },"image/jpeg",0.98);
+
+    };
+
+    img.onerror = function(){
+
+        URL.revokeObjectURL(url);
+    showStatus(
+            "❌ Download preparation failed."
+        );
+
+    };
+
+    img.src = url;
+
+}
+
+
+/* DOWNLOAD BLOB */
+
+function downloadBlob(blob, filename){
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+
+    link.download = filename;
+
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    /*
+      Keep URL alive briefly for
+      mobile browser download handling.
+    */
+
+    setTimeout(function(){
+
+        URL.revokeObjectURL(url);
+
+    },3000);
+
+}
+
+
+/* CLEANUP */
+
+window.addEventListener("beforeunload",function(){
+
+    destroyCropper();
+
+    if(sourceURL)
+        URL.revokeObjectURL(sourceURL);
+
+    if(frontURL)
+        URL.revokeObjectURL(frontURL);
+
+    if(backURL)
+        URL.revokeObjectURL(backURL);
+
 });
 
-
-/* DOWNLOAD FRONT */
-
-downloadFrontBtn.addEventListener(
-'click',
-function(){
-
-    if(!frontDataUrl)return;
-
-    const a=
-    document.createElement('a');
-
-    a.href=frontDataUrl;
-
-    a.download=
-    'SARVATRA_PVC_Front_Card.jpg';
-
-    document.body.appendChild(a);
-
-    a.click();
-
-    a.remove();
-
-});
-
-
-/* DOWNLOAD BACK */
-
-downloadBackBtn.addEventListener(
-'click',
-function(){
-
-    if(!backDataUrl)return;
-
-    const a=
-    document.createElement('a');
-
-    a.href=backDataUrl;
-
-    a.download=
-    'SARVATRA_PVC_Back_Card.jpg';
-
-    document.body.appendChild(a);
-
-    a.click();
-
-    a.remove();
-
-});
 
 </script>
 
 </body>
 </html>
-
- 
